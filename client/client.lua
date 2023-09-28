@@ -174,7 +174,7 @@ AddEventHandler("phoenix:bloodtestitem", function()
                     TriggerServerEvent("phoenix:removeblooditem", 'blood_test')
                     Config.ProgressBar(Translation[Config.Locale]["blood_will_be_taken"], 15000)
                     TriggerServerEvent("phoenix:setblood_target", targetid)
-                    Citizen.Wait(200)
+                    Citizen.Wait(1000)
                     local bloodtypetarget2 = exports["phoenix_bloodtypes"]:callbloodtypetarget()
                     Config.MSG(Translation[Config.Locale]["bloodtype_target"]..' '..bloodtypetarget2)
                 else
