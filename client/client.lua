@@ -164,26 +164,32 @@ RegisterNetEvent("phoenix:bloodtestitem")
 AddEventHandler("phoenix:bloodtestitem", function()
     local targetplayer, distance = ESX.Game.GetClosestPlayer()
     local targetid = GetPlayerServerId(targetplayer)
-    if distance < 3 then 
-        local bloodtypetarget = exports["phoenix_bloodtypes"]:callbloodtypetarget()
-        if bloodtypetarget == nil then
-            local time = 15000
-            TriggerServerEvent("phoenix:bloodtestitem_s", targetid)
-            TriggerServerEvent("phoenix:removeblooditem", 'blood_test')
-            Config.ProgressBar(Translation[Config.Locale]["blood_will_be_taken"], 15000)
-            TriggerServerEvent("phoenix:setblood_target", targetid)
-            Citizen.Wait(200)
-            local bloodtypetarget2 = exports["phoenix_bloodtypes"]:callbloodtypetarget()
-            Config.MSG(Translation[Config.Locale]["bloodtype_target"]..' '..bloodtypetarget2)
-        else
-            TriggerServerEvent("phoenix:removeblooditem", 'blood_test')
-            TriggerServerEvent("phoenix:bloodtestitem_s", targetid)
-            Config.ProgressBar(Translation[Config.Locale]["blood_will_be_taken"], 15000)
-            Config.MSG(Translation[Config.Locale]["bloodtype_target"]..' '..bloodtypetarget)
-        end
-    else 
-        Config.MSG(Translation[Config.Locale]["no_player_nearby"])
-    end
+    ESX.TriggerServerCallback('phoenix:isclosestthere', function(enough)
+        if enough then
+            if distance < 3 then 
+                local bloodtypetarget = exports["phoenix_bloodtypes"]:callbloodtypetarget()
+                if bloodtypetarget == nil then
+                    local time = 15000
+                    TriggerServerEvent("phoenix:bloodtestitem_s", targetid)
+                    TriggerServerEvent("phoenix:removeblooditem", 'blood_test')
+                    Config.ProgressBar(Translation[Config.Locale]["blood_will_be_taken"], 15000)
+                    TriggerServerEvent("phoenix:setblood_target", targetid)
+                    Citizen.Wait(200)
+                    local bloodtypetarget2 = exports["phoenix_bloodtypes"]:callbloodtypetarget()
+                    Config.MSG(Translation[Config.Locale]["bloodtype_target"]..' '..bloodtypetarget2)
+                else
+                    TriggerServerEvent("phoenix:removeblooditem", 'blood_test')
+                    TriggerServerEvent("phoenix:bloodtestitem_s", targetid)
+                    Config.ProgressBar(Translation[Config.Locale]["blood_will_be_taken"], 15000)
+                    Config.MSG(Translation[Config.Locale]["bloodtype_target"]..' '..bloodtypetarget)
+                end
+            else 
+                Config.MSG(Translation[Config.Locale]["no_player_nearby"])
+            end
+        else 
+            Config.MSG(Translation[Config.Locale]["no_player_nearby"])
+        end    
+    end)
 end)
 
 RegisterNetEvent("phoenix:bloodtestitem_c")
@@ -208,48 +214,54 @@ RegisterNetEvent("phoenix:takebloodmedic")
 AddEventHandler("phoenix:takebloodmedic", function()
     local targetplayer, distance = ESX.Game.GetClosestPlayer()
     local targetid = GetPlayerServerId(targetplayer)
-    if distance < 3 then 
-        local bloodtypetarget = exports["phoenix_bloodtypes"]:callbloodtypetarget()
-        if bloodtypetarget == nil then
-            Config.MSG(Translation[Config.Locale]["has_to_test_blood"])
+    ESX.TriggerServerCallback('phoenix:isclosestthere', function(enough)
+        if enough then
+            if distance < 3 then 
+                local bloodtypetarget = exports["phoenix_bloodtypes"]:callbloodtypetarget()
+                if bloodtypetarget == nil then
+                    Config.MSG(Translation[Config.Locale]["has_to_test_blood"])
+                else 
+                    local time = 30000
+                    TriggerServerEvent("phoenix:takebloodmedic_s", targetid)
+                    TriggerServerEvent("phoenix:removeblooditem", 'blood_empty')
+                    if Config.NeededItem == nil then
+                    else 
+                        TriggerServerEvent("phoenix:removeblooditem", Config.NeededItem)
+                    end
+                    Config.ProgressBar(Translation[Config.Locale]["blood_will_be_taken"], 30000)
+                    local blooditem = ''
+                    if bloodtypetarget == 'A+' then 
+                        blooditem = 'blood_ap'
+                    elseif bloodtypetarget == '0+' then
+                        blooditem = 'blood_0p'
+                    elseif bloodtypetarget == 'B+' then
+                        blooditem = 'blood_bp'
+                    elseif bloodtypetarget == 'A-' then
+                        blooditem = 'blood_an'
+                    elseif bloodtypetarget == '0-' then
+                        blooditem = 'blood_0n'
+                    elseif bloodtypetarget == 'AB+' then
+                        blooditem = 'blood_abp'
+                    elseif bloodtypetarget == 'B-' then
+                        blooditem = 'blood_bn'   
+                    elseif bloodtypetarget == 'AB-' then
+                        blooditem = 'blood_abn'
+                    end 
+                    Citizen.Wait(150)
+                    if blooditem == nil then 
+                        Config.MSG(Translation[Config.Locale]["item_got_nil"])
+                    else 
+                        TriggerServerEvent("phoenix:addblooditem", blooditem)
+                        Config.MSG(Translation[Config.Locale]["you_took_blood"]..' '..bloodtypetarget)
+                    end
+                end
+            else 
+                Config.MSG(Translation[Config.Locale]["no_player_nearby"])
+            end
         else 
-            local time = 30000
-            TriggerServerEvent("phoenix:takebloodmedic_s", targetid)
-	        TriggerServerEvent("phoenix:removeblooditem", 'blood_empty')
-            if Config.NeededItem == nil then
-            else 
-                TriggerServerEvent("phoenix:removeblooditem", Config.NeededItem)
-            end
-            Config.ProgressBar(Translation[Config.Locale]["blood_will_be_taken"], 30000)
-            local blooditem = ''
-            if bloodtypetarget == 'A+' then 
-                blooditem = 'blood_ap'
-            elseif bloodtypetarget == '0+' then
-                blooditem = 'blood_0p'
-            elseif bloodtypetarget == 'B+' then
-                blooditem = 'blood_bp'
-            elseif bloodtypetarget == 'A-' then
-                blooditem = 'blood_an'
-            elseif bloodtypetarget == '0-' then
-                blooditem = 'blood_0n'
-            elseif bloodtypetarget == 'AB+' then
-                blooditem = 'blood_abp'
-            elseif bloodtypetarget == 'B-' then
-                blooditem = 'blood_bn'   
-            elseif bloodtypetarget == 'AB-' then
-                blooditem = 'blood_abn'
-            end 
-            Citizen.Wait(150)
-            if blooditem == nil then 
-                Config.MSG(Translation[Config.Locale]["item_got_nil"])
-            else 
-                TriggerServerEvent("phoenix:addblooditem", blooditem)
-                Config.MSG(Translation[Config.Locale]["you_took_blood"]..' '..bloodtypetarget)
-            end
-        end
-    else 
-        Config.MSG(Translation[Config.Locale]["no_player_nearby"])
-    end
+            Config.MSG(Translation[Config.Locale]["no_player_nearby"])
+        end 
+    end)
 end)
 
 RegisterNetEvent("phoenix:openmenu")
@@ -268,21 +280,26 @@ AddEventHandler("phoenix:openmenu", function(blooditem)
         inmenu = false
         if data.current.value == 'player' then 
             local target, distance = ESX.Game.GetClosestPlayer()
-            if distance < 2 then 
-                local targetplayer = GetPlayerServerId(target)
-                TriggerServerEvent("phoenix:sendclosest_s", targetplayer, blooditem)
-                TriggerServerEvent("phoenix:removeblooditem", blooditem)
-                Config.MSG(Translation[Config.Locale]["giving_blood_transfusion"])
-                Config.ProgressBar(Translation[Config.Locale]["blood_transfusion_started"], 30000)
-            else 
-                Config.MSG(Translation[Config.Locale]["no_player_nearby"])
-            end
+            ESX.TriggerServerCallback('phoenix:isclosestthere', function(enough)
+                if enough then
+                    if distance < 2 then 
+                        local targetplayer = GetPlayerServerId(target)
+                        TriggerServerEvent("phoenix:sendclosest_s", targetplayer, blooditem)
+                        TriggerServerEvent("phoenix:removeblooditem", blooditem)
+                        Config.MSG(Translation[Config.Locale]["giving_blood_transfusion"])
+                        Config.ProgressBar(Translation[Config.Locale]["blood_transfusion_started"], 30000)
+                    else 
+                        Config.MSG(Translation[Config.Locale]["no_player_nearby"])
+                    end
+                else 
+                    Config.MSG(Translation[Config.Locale]["no_player_nearby"])
+                end 
+            end)
         end 
         if data.current.value == 'self' then
             TriggerEvent("phoenix:takeblood", blooditem)
             print(blooditem)
         end 
-    
     end, 
     function(data, menu)
         menu.close()
@@ -466,17 +483,23 @@ end)
 exports("callbloodtypetarget", function()
     local targetplayer, distance = ESX.Game.GetClosestPlayer()
     local targetid = GetPlayerServerId(targetplayer)
-    if distance < 3 then
-        ESX.TriggerServerCallback('phoenix:bloodtypetarget', function(bluttyp)
-            for k, v in pairs(bluttyp) do 
-                bloodtype = v.bloodtype
+    ESX.TriggerServerCallback('phoenix:isclosestthere', function(enough)
+        if enough then
+            if distance < 3 then
+                ESX.TriggerServerCallback('phoenix:bloodtypetarget', function(bluttyp)
+                    for k, v in pairs(bluttyp) do 
+                        bloodtype = v.bloodtype
+                    end
+                end, targetid)
+                Citizen.Wait(100)
+                return bloodtype
+            else 
+                return 'No Player nearby'
             end
-        end, targetid)
-        Citizen.Wait(100)
-        return bloodtype
-    else 
-        return 'No Player nearby'
-    end
+        else 
+            return 'No Player nearby'
+        end
+    end)
 end)
 
 exports("deletebloodtype", function()
