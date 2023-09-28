@@ -77,7 +77,19 @@ end)
 --MedicItems
 ESX.RegisterUsableItem('blood_test', function(source)
     local xPlayer = ESX.GetPlayerFromId(source)
-    TriggerClientEvent("phoenix:bloodtestitem", source)
+    local xPlayers = ESX.GetPlayers()
+	local players = 0
+	for i=1, #xPlayers, 1 do
+		local xPlayer = ESX.GetPlayerFromId(xPlayers[i])
+        if xPlayer then
+		    players = players + 1
+        end
+   	end
+    if players > 1 then
+        TriggerClientEvent("phoenix:bloodtestitem", source)
+    else 
+        TriggerClientEvent("phoenix:notifyclient", source, "no_player_nearby")
+    end
 end)
 
 ESX.RegisterUsableItem('blood_empty', function(source)
@@ -139,6 +151,16 @@ ESX.RegisterServerCallback('phoenix:bloodtypetarget', function(source, cb, targe
             cb(result2)
         end
     end)
+end)
+
+RegisterServerEvent("phoenix:bloodtestitem_s")
+AddEventHandler("phoenix:bloodtestitem_s", function(targetid)
+    TriggerClientEvent("phoenix:bloodtestitem_c", targetid)
+end)
+
+RegisterServerEvent("phoenix:takebloodmedic_s")
+AddEventHandler("phoenix:takebloodmedic_s", function(targetid)
+    TriggerClientEvent("phoenix:takebloodmedic_c", targetid)
 end)
 
 RegisterServerEvent("phoenix:deletebloodtype")
