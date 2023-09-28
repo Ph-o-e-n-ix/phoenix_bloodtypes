@@ -95,15 +95,15 @@ end)
 ESX.RegisterUsableItem('blood_empty', function(source)
     local xPlayer = ESX.GetPlayerFromId(source)
     local xPlayers = ESX.GetPlayers()
+    local players = 0
     if xPlayer.job.name == Config.JobForMenu then
-        local players = 0
         for i=1, #xPlayers, 1 do
             local xPlayer = ESX.GetPlayerFromId(xPlayers[i])
             if xPlayer then
                 players = players + 1
             end
         end
-        if players < 1 then
+        if players > 1 then
             local xPlayer = ESX.GetPlayerFromId(source)
             if Config.NeededItem == nil then
                 TriggerClientEvent("phoenix:takebloodmedic", source)
@@ -152,6 +152,23 @@ ESX.RegisterServerCallback('phoenix:bloodtype', function(source, cb)
             cb(result)
         end
     end)
+end)
+
+ESX.RegisterServerCallback('phoenix:isclosestthere', function(source, cb)
+    local xPlayer = ESX.GetPlayerFromId(source)
+    local xPlayers = ESX.GetPlayers()
+    local players = 0
+	for i=1, #xPlayers, 1 do
+		local xPlayer = ESX.GetPlayerFromId(xPlayers[i])
+        if xPlayer then
+		    players = players + 1
+        end
+   	end
+    if players > 1 then
+        cb(true)
+    else 
+        cb(false)
+    end
 end)
 
 ESX.RegisterServerCallback('phoenix:bloodtypetarget', function(source, cb, targetid)
