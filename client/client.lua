@@ -59,7 +59,7 @@ if Config.StationToggle then
                     DrawText3D(v.coords.x, v.coords.y, v.coords.z + 0.10, Translation[Config.Locale]["press_g"])  
                     if distance < 2 then
                         if IsControlJustReleased(0, 38) then 
-                            local bloodtype = exports["phoenix_blood"]:callbloodtype()
+                            local bloodtype = exports["phoenix_bloodtypes"]:callbloodtype()
                             if bloodtype == nil then 
                                 Config.MSG(Translation[Config.Locale]["bloodgroup_not_avaiable"])
                             else 
@@ -71,7 +71,7 @@ if Config.StationToggle then
                             end
                         end
                         if IsControlJustReleased(0, 47) then 
-                            local blood = exports["phoenix_blood"]:callbloodtype()
+                            local blood = exports["phoenix_bloodtypes"]:callbloodtype()
                             if blood == nil then 
                                 test = true
                                 TriggerServerEvent("phoenix:pay_fee", test)
@@ -107,7 +107,7 @@ RegisterNetEvent("phoenix:takeblood")
 AddEventHandler("phoenix:takeblood", function(blooditem, istargetplayer)
     if not busy then
         busy = true
-        local bloodtype = exports["phoenix_blood"]:callbloodtype()
+        local bloodtype = exports["phoenix_bloodtypes"]:callbloodtype()
         if blooditem    == 'blood_ap' then
             if bloodtype == 'AB+' or bloodtype == 'A+' then 
                 startbloodreserve('blood_ap', istargetplayer)
@@ -165,13 +165,13 @@ AddEventHandler("phoenix:bloodtestitem", function()
     local targetplayer, distance = ESX.Game.GetClosestPlayer()
     local targetid = GetPlayerServerId(targetplayer)
     if distance < 3 then 
-        local bloodtypetarget = exports["phoenix_blood"]:callbloodtypetarget()
+        local bloodtypetarget = exports["phoenix_bloodtypes"]:callbloodtypetarget()
         if bloodtypetarget == nil then
             Config.ProgressBar(Translation[Config.Locale]["blood_will_be_taken"], 15000)
             Citizen.Wait(15000)
             TriggerServerEvent("phoenix:setblood_target", targetid)
             Citizen.Wait(1000)
-            local bloodtypetarget2 = exports["phoenix_blood"]:callbloodtypetarget()
+            local bloodtypetarget2 = exports["phoenix_bloodtypes"]:callbloodtypetarget()
             Config.MSG(Translation[Config.Locale]["bloodtype_target"]..' '..bloodtypetarget2)
             TriggerServerEvent("phoenix:removeblooditem", 'blood_test')
         else
@@ -188,14 +188,14 @@ end)
 RegisterNetEvent("phoenix:setblood_target_c")
 AddEventHandler("phoenix:setblood_target_c", function(targetid)
    local playerped = PlayerPedId()
-   exports["phoenix_blood"]:setbloodtype()
+   exports["phoenix_bloodtypes"]:setbloodtype()
 end)
 
 RegisterNetEvent("phoenix:takebloodmedic")
 AddEventHandler("phoenix:takebloodmedic", function()
     local targetplayer, distance = ESX.Game.GetClosestPlayer()
     if distance < 3 then 
-        local bloodtypetarget = exports["phoenix_blood"]:callbloodtypetarget()
+        local bloodtypetarget = exports["phoenix_bloodtypes"]:callbloodtypetarget()
         if bloodtypetarget == nil then
             Config.MSG(Translation[Config.Locale]["has_to_test_blood"])
         else 
@@ -474,13 +474,13 @@ end)
 
 exports("setbloodtype", function(blood)
     if blood == nil then
-        local type3 = exports["phoenix_blood"]:callbloodtype()
+        local type3 = exports["phoenix_bloodtypes"]:callbloodtype()
         if type3 == nil then
             TriggerServerEvent("phoenix:setbloodtype")
             Config.MSG(Translation[Config.Locale]["received_blootype"])
         end
     else 
-        local type2 = exports["phoenix_blood"]:callbloodtype()
+        local type2 = exports["phoenix_bloodtypes"]:callbloodtype()
         if type2 == nil then
             print(blood)
             TriggerServerEvent("phoenix:setbloodtype", blood)
