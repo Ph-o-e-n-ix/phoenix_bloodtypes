@@ -199,6 +199,7 @@ AddEventHandler("phoenix:takebloodmedic", function()
         if bloodtypetarget == nil then
             Config.MSG(Translation[Config.Locale]["has_to_test_blood"])
         else 
+	    TriggerServerEvent("phoenix:removeblooditem", 'blood_empty')
             Config.ProgressBar(Translation[Config.Locale]["blood_will_be_taken"], 30000)
             Citizen.Wait(30000)
             local blooditem = ''
@@ -223,7 +224,6 @@ AddEventHandler("phoenix:takebloodmedic", function()
             if blooditem == nil then 
                 Config.MSG(Translation[Config.Locale]["item_got_nil"])
             else 
-                TriggerServerEvent("phoenix:removeblooditem", 'blood_empty')
                 if Config.NeededItem == nil then
                 else 
                     TriggerServerEvent("phoenix:removeblooditem", Config.NeededItem)
