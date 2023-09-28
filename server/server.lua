@@ -94,6 +94,7 @@ end)
 
 ESX.RegisterUsableItem('blood_empty', function(source)
     local xPlayer = ESX.GetPlayerFromId(source)
+    local xPlayers = ESX.GetPlayers()
     if xPlayer.job.name == Config.JobForMenu then
         local players = 0
         for i=1, #xPlayers, 1 do
