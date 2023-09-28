@@ -27,12 +27,12 @@ Features:
 -------------------------------------------------------------------
 #CLIENT EXPORTS 
 ```
-exports["phoenix_blood"]:setbloodtype()
-exports["phoenix_blood"]:setbloodtype('AB+')
+exports["phoenix_bloodtypes"]:setbloodtype()
+exports["phoenix_bloodtypes"]:setbloodtype('AB+')
 
-exports["phoenix_blood"]:callbloodtype()
-exports["phoenix_blood"]:callbloodtypetarget()
-exports["phoenix_blood"]:deletebloodtype()
+exports["phoenix_bloodtypes"]:callbloodtype()
+exports["phoenix_bloodtypes"]:callbloodtypetarget()
+exports["phoenix_bloodtypes"]:deletebloodtype()
 ```
 
 -------------------------------------------------------------------
