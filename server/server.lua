@@ -95,16 +95,27 @@ end)
 ESX.RegisterUsableItem('blood_empty', function(source)
     local xPlayer = ESX.GetPlayerFromId(source)
     if xPlayer.job.name == Config.JobForMenu then
-        local xPlayer = ESX.GetPlayerFromId(source)
-        if Config.NeededItem == nil then
-            TriggerClientEvent("phoenix:takebloodmedic", source)
-        else
-            local item = xPlayer.getInventoryItem('syringe').count
-            if item > 0 then
+        local players = 0
+        for i=1, #xPlayers, 1 do
+            local xPlayer = ESX.GetPlayerFromId(xPlayers[i])
+            if xPlayer then
+                players = players + 1
+            end
+        end
+        if players < 1 then
+            local xPlayer = ESX.GetPlayerFromId(source)
+            if Config.NeededItem == nil then
                 TriggerClientEvent("phoenix:takebloodmedic", source)
-            else 
-                TriggerClientEvent("phoenix:notifyclient", source, "do_not_have_syringe")
-            end 
+            else
+                local item = xPlayer.getInventoryItem('syringe').count
+                if item > 0 then
+                    TriggerClientEvent("phoenix:takebloodmedic", source)
+                else 
+                    TriggerClientEvent("phoenix:notifyclient", source, "do_not_have_syringe")
+                end 
+            end
+        else 
+            TriggerClientEvent("phoenix:notifyclient", source, "no_player_nearby")
         end
     end
 end)
