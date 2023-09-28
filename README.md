@@ -40,12 +40,12 @@ exports["phoenix_blood"]:deletebloodtype()
 Examples:
 ```
 RegisterCommand("setbloodtype", function()
-    exports["phoenix_blood"]:setbloodtype()
+    exports["phoenix_bloodtypes"]:setbloodtype()
 end)
 ```
 ```
 RegisterCommand("getbloodtype", function()
-    local bloodtype = exports["phoenix_blood"]:callbloodtype() 
+    local bloodtype = exports["phoenix_bloodtypes"]:callbloodtype() 
     print(bloodtype)
 end)
 ```
@@ -54,14 +54,14 @@ RegisterCommand("targetbloodtype", function()
     local targetplayer, distance = ESX.Game.GetClosestPlayer()
     local targetid = GetPlayerServerId(targetplayer)
     if distance < 3 then 
-        local bloodtype = exports["phoenix_blood"]:callbloodtypetarget()
+        local bloodtype = exports["phoenix_bloodtypes"]:callbloodtypetarget()
         print(bloodtype)
     end
 end)
 ```
 ```
 RegisterCommand("getbloodtype", function()
-    exports["phoenix_blood"]:deletebloodtype()
+    exports["phoenix_bloodtypes"]:deletebloodtype()
     --Database Entry from player will be deleted
 end)
 ```
