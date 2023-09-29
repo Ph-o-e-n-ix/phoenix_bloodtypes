@@ -31,7 +31,7 @@ exports["phoenix_bloodtypes"]:setbloodtype()
 exports["phoenix_bloodtypes"]:setbloodtype('AB+')
 
 exports["phoenix_bloodtypes"]:callbloodtype()
-exports["phoenix_bloodtypes"]:callbloodtypetarget()
+exports["phoenix_bloodtypes"]:callbloodtypetarget(targetplayer)
 exports["phoenix_bloodtypes"]:deletebloodtype()
 ```
 
@@ -54,7 +54,7 @@ RegisterCommand("targetbloodtype", function()
     local targetplayer, distance = ESX.Game.GetClosestPlayer()
     local targetid = GetPlayerServerId(targetplayer)
     if distance < 3 then 
-        local bloodtype = exports["phoenix_bloodtypes"]:callbloodtypetarget()
+        local bloodtype = exports["phoenix_bloodtypes"]:callbloodtypetarget(targetplayer)
         print(bloodtype)
     end
 end)
