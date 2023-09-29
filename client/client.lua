@@ -163,36 +163,30 @@ RegisterNetEvent("phoenix:bloodtestitem")
 AddEventHandler("phoenix:bloodtestitem", function()
     local targetplayer, distance = ESX.Game.GetClosestPlayer()
     local targetid = GetPlayerServerId(targetplayer)
-    ESX.TriggerServerCallback('phoenix:isclosestthere', function(enough)
-        if enough then
-            if distance < 3 then 
-                if not inbloodtest then
-                    inbloodtest = true
-                    local bloodtypetarget = exports["phoenix_bloodtypes"]:callbloodtypetarget(targetplayer)
-                    if bloodtypetarget == nil then
-                        TriggerServerEvent("phoenix:setblood_target", targetid)
-                        TriggerServerEvent("phoenix:bloodtestitem_s", targetid)
-                        TriggerServerEvent("phoenix:removeblooditem", 'blood_test')
-                        Config.ProgressBar(Translation[Config.Locale]["blood_will_be_taken"], 15000)
-                        Citizen.Wait(1000)
-                        local bloodtypetarget2 = exports["phoenix_bloodtypes"]:callbloodtypetarget(targetplayer)
-                        Config.MSG(Translation[Config.Locale]["bloodtype_target"]..' '..bloodtypetarget2)
-                        inbloodtest = false
-                    else
-                        TriggerServerEvent("phoenix:removeblooditem", 'blood_test')
-                        TriggerServerEvent("phoenix:bloodtestitem_s", targetid)
-                        Config.ProgressBar(Translation[Config.Locale]["blood_will_be_taken"], 15000)
-                        Config.MSG(Translation[Config.Locale]["bloodtype_target"]..' '..bloodtypetarget)
-                        inbloodtest = false
-                    end
-                end
-            else 
-                Config.MSG(Translation[Config.Locale]["no_player_nearby"])
+    if distance < 3 then 
+        if not inbloodtest then
+            inbloodtest = true
+            local bloodtypetarget = exports["phoenix_bloodtypes"]:callbloodtypetarget(targetplayer)
+            if bloodtypetarget == nil then
+                TriggerServerEvent("phoenix:setblood_target", targetid)
+                TriggerServerEvent("phoenix:bloodtestitem_s", targetid)
+                TriggerServerEvent("phoenix:removeblooditem", 'blood_test')
+                Config.ProgressBar(Translation[Config.Locale]["blood_will_be_taken"], 15000)
+                Citizen.Wait(1000)
+                local bloodtypetarget2 = exports["phoenix_bloodtypes"]:callbloodtypetarget(targetplayer)
+                Config.MSG(Translation[Config.Locale]["bloodtype_target"]..' '..bloodtypetarget2)
+                inbloodtest = false
+            else
+                TriggerServerEvent("phoenix:removeblooditem", 'blood_test')
+                TriggerServerEvent("phoenix:bloodtestitem_s", targetid)
+                Config.ProgressBar(Translation[Config.Locale]["blood_will_be_taken"], 15000)
+                Config.MSG(Translation[Config.Locale]["bloodtype_target"]..' '..bloodtypetarget)
+                inbloodtest = false
             end
-        else 
-            Config.MSG(Translation[Config.Locale]["no_player_nearby"])
-        end    
-    end)
+        end
+    else 
+        Config.MSG(Translation[Config.Locale]["no_player_nearby"])
+    end
 end)
 
 RegisterNetEvent("phoenix:bloodtestitem_c")
