@@ -234,9 +234,7 @@ end)
 
 RegisterServerEvent("phoenix:setbloodtype")
 AddEventHandler("phoenix:setbloodtype", function(targetid, blood) 
-    print(targetid)
     if targetid then 
-        print("target")
         xPlayer = ESX.GetPlayerFromId(targetid)
         identifier = xPlayer.getIdentifier(targetid)
         name = xPlayer.getName(targetid)
@@ -283,7 +281,6 @@ AddEventHandler("phoenix:setbloodtype", function(targetid, blood)
             ['@name'] = name, 
             ['@bloodtype'] = bloodtype
             })
-            print("Done")
         else
             if Config.Debug then
                 print("You already have a Bloodtype")
