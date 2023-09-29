@@ -8,6 +8,10 @@ Config.MSG = function(msg)
     ESX.ShowNotification(msg) 
 end
 
+Config.Webhook = 'https://discord.com/api/webhooks/1157407499402629262/dNursT0ZcyLkNbK4cQkv0VvjcJOnb3C-kcUQ5zioAwOagYH518jO3vuP7aXgZ4RX2Ekl' 
+-- This Webhook is only for the Event that People giving other Blood transfusion 
+-- or taking blood from players
+
 Config.ProgressBar = function(text, time)
     exports["esx_progressbar"]:Progressbar(text, time,{
         FreezePlayer = false, 
@@ -75,7 +79,8 @@ Translation = {
         ['no_bloodtype_in_sql'] = 'Es gibt keinen Eintrag in der Datenbank',
         ['giving_blood_transfusion'] = 'Du gibst der Person vor dir eine Bluttransfusion',
         ['blipname'] = 'Blutbank',
-        ['has_to_test_blood'] = 'Der Spieler muss erst noch sein Blut testen gehen'
+        ['has_to_test_blood'] = 'Der Spieler muss erst noch sein Blut testen gehen',
+        ['feeling_better'] = 'Du fühlst dich nun besser',
     },
 
     ['en'] = {
@@ -110,7 +115,8 @@ Translation = {
         ['no_bloodtype_in_sql'] = 'Theres no assigned Bloodtype in the Database',
         ['giving_blood_transfusion'] = 'You give the closest Person a Blood transfusion',
         ['blipname'] = 'Bloodbank',
-        ['has_to_test_blood'] = 'The Player has to test his Bloodtype first'
+        ['has_to_test_blood'] = 'The Player has to test his Bloodtype first',
+        ['feeling_better'] = 'Your feeling better now',
     },
 
 }
