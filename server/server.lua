@@ -266,8 +266,8 @@ end)
 RegisterServerEvent("phoenix:sendclosest_s")
 AddEventHandler("phoenix:sendclosest_s", function(targetplayer, blooditem)
    local xPlayer = ESX.GetPlayerFromId(targetplayer)
-   local blooditem2 = blooditem
-   TriggerClientEvent("phoenix:sendclosest_c", targetplayer, blooditem2)
+   
+   TriggerClientEvent("phoenix:sendclosest_c", targetplayer, blooditem)
 end)
 
 RegisterServerEvent("phoenix:pay_fee")
@@ -278,4 +278,15 @@ AddEventHandler("phoenix:pay_fee", function(test)
     else
         xPlayer.removeAccountMoney('bank', 50)
     end
+    TriggerEvent('esx_addonaccount:getSharedAccount', 'society_ambulance', function(account)
+    if account then
+           if test then
+        account.addMoney(500)
+           else 
+            account.addMoney(50)
+        end
+    else
+        xPlayer.showNotification("Error")
+    end
+  end)
 end)
