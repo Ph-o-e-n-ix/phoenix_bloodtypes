@@ -483,23 +483,17 @@ end)
 exports("callbloodtypetarget", function()
     local targetplayer, distance = ESX.Game.GetClosestPlayer()
     local targetid = GetPlayerServerId(targetplayer)
-    ESX.TriggerServerCallback('phoenix:isclosestthere', function(enough)
-        if enough then
-            if distance < 3 then
-                ESX.TriggerServerCallback('phoenix:bloodtypetarget', function(bluttyp)
-                    for k, v in pairs(bluttyp) do 
-                        bloodtype = v.bloodtype
-                    end
-                end, targetid)
-                Citizen.Wait(100)
-                return bloodtype
-            else 
-                return 'No Player nearby'
+    if distance < 3 then
+        ESX.TriggerServerCallback('phoenix:bloodtypetarget', function(bluttyp)
+            for k, v in pairs(bluttyp) do 
+                bloodtype = v.bloodtype
             end
-        else 
-            return 'No Player nearby'
-        end
-    end)
+        end, targetid)
+        Citizen.Wait(100)
+        return bloodtype
+    else 
+        return 'No Player nearby'
+    end
 end)
 
 exports("deletebloodtype", function()
