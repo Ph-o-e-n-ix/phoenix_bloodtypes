@@ -120,9 +120,7 @@ AddEventHandler("phoenix:takeblood", function(blooditem, istargetplayer)
         elseif blooditem == 'blood_bp' then
             if bloodtype == 'B+' or bloodtype == 'AB+' then
                 startbloodreserve('blood_bp', istargetplayer)
-                print("GUTGUTGUT")
             else 
-                print("kakakakakaka")
                 wrongblood('blood_bp', istargetplayer)
             end
         elseif blooditem == 'blood_an' then
@@ -133,11 +131,8 @@ AddEventHandler("phoenix:takeblood", function(blooditem, istargetplayer)
             end
         elseif blooditem == 'blood_0p' then
             if bloodtype == '0+' or bloodtype == 'B+' or bloodtype == 'A+' or bloodtype == 'AB+' then
-                print("123")
                 startbloodreserve('blood_0p', istargetplayer)
             else 
-                print("321")
-                print(bloodtype)
                 wrongblood('blood_0p', istargetplayer)
             end 
         elseif blooditem == 'blood_abp' then
@@ -175,7 +170,6 @@ AddEventHandler("phoenix:bloodtestitem", function()
                     inbloodtest = true
                     local bloodtypetarget = exports["phoenix_bloodtypes"]:callbloodtypetarget(targetplayer)
                     if bloodtypetarget == nil then
-                        print("1")
                         TriggerServerEvent("phoenix:setblood_target", targetid)
                         TriggerServerEvent("phoenix:bloodtestitem_s", targetid)
                         TriggerServerEvent("phoenix:removeblooditem", 'blood_test')
@@ -185,7 +179,6 @@ AddEventHandler("phoenix:bloodtestitem", function()
                         Config.MSG(Translation[Config.Locale]["bloodtype_target"]..' '..bloodtypetarget2)
                         inbloodtest = false
                     else
-                        print("2")
                         TriggerServerEvent("phoenix:removeblooditem", 'blood_test')
                         TriggerServerEvent("phoenix:bloodtestitem_s", targetid)
                         Config.ProgressBar(Translation[Config.Locale]["blood_will_be_taken"], 15000)
@@ -310,7 +303,6 @@ AddEventHandler("phoenix:openmenu", function(blooditem)
         end 
         if data.current.value == 'self' then
             TriggerEvent("phoenix:takeblood", blooditem)
-            print(blooditem)
         end 
     end, 
     function(data, menu)
@@ -392,7 +384,6 @@ function startbloodreserve(itemname, istargetplayer)
     SetEntityHealth(playerped, maxhealth)
     Config.AfterBloodtransfusion()
     busy = false
-    print("you good")
 end
 
 function wrongblood(itemname, istargetplayer)
@@ -517,7 +508,6 @@ exports("setbloodtype", function(blood)
     else 
         local type2 = exports["phoenix_bloodtypes"]:callbloodtype()
         if type2 == nil then
-            print(blood)
             TriggerServerEvent("phoenix:setbloodtype", blood)
             --Config.MSG(Translation[Config.Locale]["received_blootype"])
         end
@@ -530,16 +520,3 @@ end)
 --exports["phoenix_bloodtypes"]:callbloodtype()
 --exports["phoenix_bloodtypes"]:callbloodtypetarget()
 --exports["phoenix_bloodtypes"]:deletebloodtype()
-
-RegisterCommand('type', function(source, args, RawCommand)
-    local targetplayer, distance = ESX.Game.GetClosestPlayer()
-    if targetplayer == nil then 
-    else 
-        if distance < 3 then
-            local typ23e = exports["phoenix_bloodtypes"]:callbloodtypetarget(targetplayer)
-            print(typ23e)
-        else 
-            print("keiner da")
-        end 
-    end
-end)
