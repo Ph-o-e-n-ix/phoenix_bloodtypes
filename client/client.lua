@@ -172,7 +172,6 @@ AddEventHandler("phoenix:bloodtestitem", function()
                     inbloodtest = true
                     local bloodtypetarget = exports["phoenix_bloodtypes"]:callbloodtypetarget(targetplayer)
                     if bloodtypetarget == nil then
-                        print("1")
                         TriggerServerEvent("phoenix:bloodtestitem_s", targetid)
                         TriggerServerEvent("phoenix:removeblooditem", 'blood_test')
                         Config.ProgressBar(Translation[Config.Locale]["blood_will_be_taken"], 15000)
@@ -182,7 +181,6 @@ AddEventHandler("phoenix:bloodtestitem", function()
                         Config.MSG(Translation[Config.Locale]["bloodtype_target"]..' '..bloodtypetarget2)
                         inbloodtest = false
                     else
-                        print("2")
                         TriggerServerEvent("phoenix:removeblooditem", 'blood_test')
                         TriggerServerEvent("phoenix:bloodtestitem_s", targetid)
                         Config.ProgressBar(Translation[Config.Locale]["blood_will_be_taken"], 15000)
