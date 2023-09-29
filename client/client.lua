@@ -375,8 +375,7 @@ function startbloodreserve(itemname, istargetplayer)
     DeleteObject(syringeObj)
     Config.MSG(Translation[Config.Locale]["blood_transfusion_success"])
     ClearPedTasks(PlayerPedId())
-    local maxhealth = GetEntityMaxHealth(playerped)
-    SetEntityHealth(playerped, maxhealth)
+    SetEntityHealth(playerped, 200)
     Config.AfterBloodtransfusion()
     busy = false
 end
