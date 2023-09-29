@@ -9,7 +9,15 @@ Config.MSG = function(msg)
 end
 
 Config.ProgressBar = function(text, time)
-    ESX.Progressbar(text, time)
+    exports["esx_progressbar"]:Progressbar(text, time,{
+    FreezePlayer = false, 
+    animation ={
+        type = "",
+        dict = "", 
+        lib =""
+    },
+    onFinish = function()
+end})
 end
 
 Config.AfterBloodtransfusion = function()
