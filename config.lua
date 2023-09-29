@@ -10,14 +10,14 @@ end
 
 Config.ProgressBar = function(text, time)
     exports["esx_progressbar"]:Progressbar(text, time,{
-    FreezePlayer = false, 
-    animation ={
-        type = "",
-        dict = "", 
-        lib =""
-    },
-    onFinish = function()
-end})
+        FreezePlayer = false, 
+        animation ={
+            type = "",
+            dict = "", 
+            lib =""
+        },
+        onFinish = function()
+    end})
 end
 
 Config.AfterBloodtransfusion = function()
