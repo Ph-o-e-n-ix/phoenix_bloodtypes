@@ -121,17 +121,39 @@ ESX.RegisterUsableItem('blood_empty', function(source)
     end
 end)
 
+RegisterServerEvent("phoenix_bloodtypes:sendwebhook")
+AddEventHandler("phoenix_bloodtypes:sendwebhook", function(targetid, playerid, bloodtype, kp)
+    local xPlayer = ESX.GetPlayerFromId(playerid)
+    local xPlayertarget = ESX.GetPlayerFromId(targetid)
+	local information = {
+		{
+			["color"] = '7798785',
+			["author"] = {
+				["icon_url"] = '',
+				["name"] = 'Phoenix-Bloodtypes',
+			},
+			["title"] = 'Logs',
+			["description"] = '```' ..xPlayer.getName(playerid)..' '..kp.. ' '..xPlayertarget.getName(targetid)..' Blood \nBlood: '..bloodtype..' ```',
+
+			["footer"] = {
+				["text"] = os.date('%d/%m/%Y [%X]').." • PHOENIX STUDIOS",
+			}
+		}
+	}
+	PerformHttpRequest(Config.Webhook, function(err, text, headers) end, 'POST', json.encode({username = 'Phoenix Studios', embeds = information}), {['Content-Type'] = 'application/json'})
+end)
+
 
 RegisterServerEvent("phoenix:setblood_target")
 AddEventHandler("phoenix:setblood_target", function(targetid)
    local xPlayertarget = ESX.GetPlayerFromId(targetid)
-   TriggerClientEvent("phoenix:setblood_target_c", targetid)
+   TriggerEvent("phoenix:setbloodtype", targetid)
 end)
 
 RegisterServerEvent("phoenix:removeblooditem")
 AddEventHandler("phoenix:removeblooditem", function(itemname)
     local xPlayer = ESX.GetPlayerFromId(source)
-    xPlayer.removeInventoryItem(itemname, 1)
+    --xPlayer.removeInventoryItem(itemname, 1)
 end)
 
 RegisterServerEvent("phoenix:addblooditem")
@@ -211,16 +233,23 @@ AddEventHandler("phoenix:deletebloodtype", function()
 end)
 
 RegisterServerEvent("phoenix:setbloodtype")
-AddEventHandler("phoenix:setbloodtype", function(blood)
-    local xPlayer = ESX.GetPlayerFromId(source)
-    local identifier = xPlayer.getIdentifier(source)
+AddEventHandler("phoenix:setbloodtype", function(targetid, blood) 
+    print(targetid)
+    if targetid then 
+        print("target")
+        xPlayer = ESX.GetPlayerFromId(targetid)
+        identifier = xPlayer.getIdentifier(targetid)
+        name = xPlayer.getName(targetid)
+    else
+        xPlayer = ESX.GetPlayerFromId(source)
+        identifier = xPlayer.getIdentifier(source)
+        name = xPlayer.getName(source)
+    end
     MySQL.single('SELECT identifier, name, bloodtype FROM phoenix_bloodtypes WHERE identifier = ?', 
     { identifier }, function(result)
         if not result then
             local random = math.random(0,100)
             local bloodtype = ''
-            local name = xPlayer.getName(source)
-            local identifier = xPlayer.getIdentifier(source)
             if blood == nil then
                 -- This Stats are based on real Stats of the Population
                 if (random < 100 and random >= 63) then -- 37 Percent probability
