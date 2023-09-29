@@ -189,12 +189,6 @@ AddEventHandler("phoenix:bloodtestitem", function()
     end
 end)
 
-RegisterCommand('taip', function()
-    local targetplayer = ESX.Game.GetClosestPlayer()
-    local bloodtypetarget2 = exports["phoenix_bloodtypes"]:callbloodtypetarget(targetplayer)
-    print(bloodtypetarget2)
-end)
-
 RegisterNetEvent("phoenix:bloodtestitem_c")
 AddEventHandler("phoenix:bloodtestitem_c", function(targetid)
     local playerped = PlayerPedId()
