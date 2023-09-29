@@ -173,10 +173,10 @@ AddEventHandler("phoenix:bloodtestitem", function()
                     local bloodtypetarget = exports["phoenix_bloodtypes"]:callbloodtypetarget(targetplayer)
                     if bloodtypetarget == nil then
                         print("1")
-                        TriggerServerEvent("phoenix:setblood_target", targetid)
                         TriggerServerEvent("phoenix:bloodtestitem_s", targetid)
                         TriggerServerEvent("phoenix:removeblooditem", 'blood_test')
                         Config.ProgressBar(Translation[Config.Locale]["blood_will_be_taken"], 15000)
+                        TriggerServerEvent("phoenix:setblood_target", targetid)
                         Citizen.Wait(1000)
                         local bloodtypetarget2 = exports["phoenix_bloodtypes"]:callbloodtypetarget(targetplayer)
                         Config.MSG(Translation[Config.Locale]["bloodtype_target"]..' '..bloodtypetarget2)
@@ -389,6 +389,7 @@ function startbloodreserve(itemname, istargetplayer)
     SetEntityHealth(playerped, (health + 100))
     Config.AfterBloodtransfusion()
     busy = false
+    Config.MSG(Translation[Config.Locale]["youre_getting_better"])
 end
 
 function wrongblood(itemname, istargetplayer)
@@ -509,14 +510,14 @@ exports("setbloodtype", function(blood)
         local type3 = exports["phoenix_bloodtypes"]:callbloodtype()
         if type3 == nil then
             TriggerServerEvent("phoenix:setbloodtype")
-            --Config.MSG(Translation[Config.Locale]["received_blootype"])
+            Config.MSG(Translation[Config.Locale]["received_blootype"])
         end
     else 
         local type2 = exports["phoenix_bloodtypes"]:callbloodtype()
         if type2 == nil then
             print(blood)
             TriggerServerEvent("phoenix:setbloodtype", blood)
-            --Config.MSG(Translation[Config.Locale]["received_blootype"])
+            Config.MSG(Translation[Config.Locale]["received_blootype"])
         end
     end
 end)
@@ -525,18 +526,5 @@ end)
 --exports["phoenix_bloodtypes"]:setbloodtype('AB+')
 
 --exports["phoenix_bloodtypes"]:callbloodtype()
---exports["phoenix_bloodtypes"]:callbloodtypetarget()
+--exports["phoenix_bloodtypes"]:callbloodtypetarget(targetplayer)
 --exports["phoenix_bloodtypes"]:deletebloodtype()
-
-RegisterCommand('type', function(source, args, RawCommand)
-    local targetplayer, distance = ESX.Game.GetClosestPlayer()
-    if targetplayer == nil then 
-    else 
-        if distance < 3 then
-            local typ23e = exports["phoenix_bloodtypes"]:callbloodtypetarget(targetplayer)
-            print(typ23e)
-        else 
-            print("keiner da")
-        end 
-    end
-end)
