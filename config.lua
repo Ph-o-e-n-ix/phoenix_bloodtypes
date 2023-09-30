@@ -8,7 +8,7 @@ Config.MSG = function(msg)
     ESX.ShowNotification(msg) 
 end
 
-Config.Webhook = 'https://discord.com/api/webhooks/1157407499402629262/dNursT0ZcyLkNbK4cQkv0VvjcJOnb3C-kcUQ5zioAwOagYH518jO3vuP7aXgZ4RX2Ekl' 
+Config.Webhook = '' -- Your Webhook Link
 -- This Webhook is only for the Event that People giving other Blood transfusion 
 -- or taking blood from players
 
