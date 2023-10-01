@@ -153,7 +153,7 @@ end)
 RegisterServerEvent("phoenix:removeblooditem")
 AddEventHandler("phoenix:removeblooditem", function(itemname)
     local xPlayer = ESX.GetPlayerFromId(source)
-    --xPlayer.removeInventoryItem(itemname, 1)
+    xPlayer.removeInventoryItem(itemname, 1)
 end)
 
 RegisterServerEvent("phoenix:addblooditem")
